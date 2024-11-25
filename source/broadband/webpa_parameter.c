@@ -159,8 +159,8 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
         char **compName = NULL;
         char **dbusPath = NULL;
         param_t **val = NULL;
-        param_t **rollbackVal = NULL;
-        param_t **storeGetValue = NULL;// To store param values before failure occurs
+        //param_t **rollbackVal = NULL;
+        //param_t **storeGetValue = NULL;// To store param values before failure occurs
 
         WalPrint("=============== Start of setValues =============\n");
         for(cnt1 = 0; cnt1 < paramCount; cnt1++)
@@ -188,18 +188,18 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                 val = (param_t **) malloc(sizeof(param_t *) * compCount);
                 memset(val,0,(sizeof(param_t *) * compCount));
 
-                rollbackVal = (param_t **) malloc(sizeof(param_t *) * compCount);
-                memset(rollbackVal,0,(sizeof(param_t *) * compCount));
+                //rollbackVal = (param_t **) malloc(sizeof(param_t *) * compCount);
+                //memset(rollbackVal,0,(sizeof(param_t *) * compCount));
 
-                storeGetValue = (param_t **)malloc(sizeof(param_t *) * paramCount);
-                memset(storeGetValue,0,(sizeof(param_t *) * paramCount));
+                //storeGetValue = (param_t **)malloc(sizeof(param_t *) * paramCount);
+                //memset(storeGetValue,0,(sizeof(param_t *) * paramCount));
                 
                 for(j = 0; j < compCount ;j++)
                 {
                         WalPrint("ParamGroup[%d].comp_name :%s, ParamGroup[%d].dbus_path :%s, ParamGroup[%d].parameterCount :%d\n",j,ParamGroup[j].comp_name, j,ParamGroup[j].dbus_path, j,ParamGroup[j].parameterCount);
 
                         val[j] = (param_t *) malloc(sizeof(param_t) * ParamGroup[j].parameterCount);
-                        rollbackVal[j] = (param_t *) malloc(sizeof(param_t) * ParamGroup[j].parameterCount);
+                        //rollbackVal[j] = (param_t *) malloc(sizeof(param_t) * ParamGroup[j].parameterCount);
                 }
 
                 WalPrint("--------- Start of SET Atomic caching -------\n");
@@ -214,7 +214,7 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                                 break;
                         }
                         
-                        WalPrint("B4 getParamValues index = %d\n", index);
+                        /*WalPrint("B4 getParamValues index = %d\n", index);
                         //GET values for rollback purpose
                         ret = getParamValues(ParamGroup[i].parameterName, ParamGroup[i].parameterCount, ParamGroup[i].comp_name, ParamGroup[i].dbus_path, timeSpan, index, 0, &storeGetValue,&retCount);
 		  	WalPrint("After getParamValues index = %d , retCount =  %d\n",index,retCount);
@@ -245,11 +245,11 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                                         WalPrint("rollbackVal[%d][%d].name : %s, rollbackVal[%d][%d].value : %s, rollbackVal[%d][%d].type : %d\n",i,j,rollbackVal[i][j].name,i,j,rollbackVal[i][j].value,i,j,rollbackVal[i][j].type);
                                         index++;
                                 }		  	    		  	    		  	    
-                        }
+                        }*/
                 }
                 WalPrint("--------- End of SET Atomic caching -------\n");
-                if(getFlag !=1)
-                {		    
+                //if(getFlag !=1)
+                //{		    
                         WalPrint("---- Start of preparing val struct ------\n");
                         for(cnt1 = 0; cnt1 < paramCount; cnt1++)
                         {
@@ -298,7 +298,7 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                                         if(ret != CCSP_SUCCESS)
                                         {
                                                 WalError("Failed to do atomic set hence rollbacking the changes. ret :%d\n",ret);
-                                                WalPrint("------ Start of rollback ------\n");
+                                                /*WalPrint("------ Start of rollback ------\n");
                                                 // Rollback data in failure case
                                                 for(rev =i-1;rev>=0;rev--)
                                                 {
@@ -320,7 +320,7 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                                                                 indexWifi = -1;
                                                         }
                                                 }
-                                                WalPrint("------ End of rollback ------\n");				
+                                                WalPrint("------ End of rollback ------\n");*/		
                                                 break;
                                         }
                                 }
@@ -336,7 +336,7 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                                         WalError("Failed atomic set for WIFI hence rollbacking the changes. ret :%d and i is %d\n",ret,i);
 
                                         // Rollback data in failure case
-                                        for(rev =i-1;rev>=0;rev--)
+                                        /*for(rev =i-1;rev>=0;rev--)
                                         {
                                                 WalPrint("rev value inside for loop is  %d\n",rev);
                                                 //skip for wifi rollback
@@ -356,21 +356,21 @@ void setValues(const param_t paramVal[], const unsigned int paramCount, const in
                                                 }	
 
                                         }
-                                        WalPrint("------ End of rollback ------\n");
+                                        WalPrint("------ End of rollback ------\n");*/
                                 }
                         }
 
-                        for(i=0;i<paramCount;i++)
+                        /*for(i=0;i<paramCount;i++)
                         {
                                 WAL_FREE(storeGetValue[i]->name);
                                 WAL_FREE(storeGetValue[i]->value);
                                 WAL_FREE(storeGetValue[i]);
-                        }
-                }
+                        }*/
+                //}
 
                 free_paramVal_memory(val,compCount);
-                free_paramVal_memory(rollbackVal,compCount);
-                WAL_FREE(storeGetValue);
+                //free_paramVal_memory(rollbackVal,compCount);
+                //WAL_FREE(storeGetValue);
         }
         else
         {
