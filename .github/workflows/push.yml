@@ -38,10 +38,10 @@ jobs:
       - name: Make Build Directory
         run: mkdir build
 
-      - name: Get Sonarcloud Binaries
-        uses: xmidt-org/sonarcloud-installer-action@v1
-        with:
-          working-directory: build
+      #- name: Get Sonarcloud Binaries
+      #  uses: xmidt-org/sonarcloud-installer-action@v1
+      #  with:
+      #    working-directory: build
 
       - name: Get rtrouted  Binary
         working-directory: build
